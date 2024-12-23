@@ -1,0 +1,58 @@
+import pandas as pd
+
+df=pd.read_excel("C:\\Users\\dell\\Documents\\blinkit.xlsx",)
+print(df)
+print(df.head())       # First 5 rows
+
+print(df.info())       # Data types and null values
+
+print(df.describe())   # Summary statistics
+print(df.shape)    
+
+print(df.isnull().sum())
+df.fillna(method='ffill', inplace=True)  # Example: forward fill
+df.dropna(inplace=True)                  # Example: drop rows with missing values
+df.drop_duplicates(inplace=True)
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+# Univariate Analysis: Histograms for numerical features
+numerical_cols = ['Item_Weight', 'Item_Visibility', 'Item_MRP', 'Item_Outlet_Sales']
+df[numerical_cols].hist(figsize=(10, 8), bins=20, color='skyblue', edgecolor='black')
+plt.suptitle("Histograms of Numerical Features")
+plt.show()
+
+# Bivariate Analysis: Scatter plots and heatmaps
+# Scatter plot: Item_MRP vs. Item_Outlet_Sales
+plt.figure(figsize=(8, 6))
+sns.scatterplot(x='Item_MRP', y='Item_Outlet_Sales', data=df)
+plt.title("Scatter Plot: Item MRP vs Item Outlet Sales")
+plt.xlabel("Item MRP")
+plt.ylabel("Item Outlet Sales")
+plt.show()
+
+# Correlation Heatmap
+plt.figure(figsize=(10, 8))
+sns.heatmap(df[numerical_cols].corr(), annot=True, cmap='coolwarm', fmt='.2f', linewidths=0.5)
+plt.title("Correlation Heatmap")
+plt.show()
+
+# Categorical Analysis: Count plots
+plt.figure(figsize=(8, 6))
+sns.countplot(y='Item_Fat_Content', data=df, palette='pastel')
+plt.title("Count Plot: Item Fat Content")
+plt.show()
+
+plt.figure(figsize=(8, 6))
+sns.countplot(y='Outlet_Type', data=df, palette='muted')
+plt.title("Count Plot: Outlet Type")
+plt.show()
+
+# Boxplot: Outlet_Type vs. Item_Outlet_Sales
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='Outlet_Type', y='Item_Outlet_Sales', data=df, palette='Set2')
+plt.title("Boxplot: Outlet Type vs Item Outlet Sales")
+plt.xticks(rotation=45)
+plt.show()
